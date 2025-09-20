@@ -7,9 +7,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Progress } from "@/components/ui/progress";
 import { ArrowRight, ArrowLeft, User, BookOpen, MapPin, Heart } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const OnboardingFlow = () => {
   const [currentStep, setCurrentStep] = useState(0);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     age: "",
@@ -182,7 +184,10 @@ const OnboardingFlow = () => {
             </Button>
             
             {currentStep === steps.length - 1 ? (
-              <Button onClick={() => console.log("Complete onboarding", formData)}>
+              <Button onClick={() => {
+                console.log("Complete onboarding", formData);
+                navigate("/quiz");
+              }}>
                 Complete Setup
                 <ArrowRight className="h-4 w-4 ml-2" />
               </Button>

@@ -5,12 +5,14 @@ import { Progress } from "@/components/ui/progress";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Brain, Clock, CheckCircle } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const QuizInterface = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState("");
   const [answers, setAnswers] = useState<string[]>([]);
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutes
+  const navigate = useNavigate();
 
   const questions = [
     {
@@ -66,6 +68,7 @@ const QuizInterface = () => {
         setCurrentQuestion(currentQuestion + 1);
       } else {
         console.log("Quiz completed", newAnswers);
+        navigate("/dashboard");
       }
     }
   };

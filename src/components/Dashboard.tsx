@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { Link } from "react-router-dom";
 import { 
   BookOpen, 
   Target, 
@@ -236,9 +237,11 @@ const Dashboard = () => {
                 <CardTitle className="text-lg">Quick Actions</CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
-                <Button variant="outline" size="sm" className="w-full justify-start">
-                  <BookOpen className="h-4 w-4 mr-2" />
-                  Take Assessment
+                <Button variant="outline" size="sm" className="w-full justify-start" asChild>
+                  <Link to="/quiz">
+                    <BookOpen className="h-4 w-4 mr-2" />
+                    Take Assessment
+                  </Link>
                 </Button>
                 <Button variant="outline" size="sm" className="w-full justify-start">
                   <Users className="h-4 w-4 mr-2" />

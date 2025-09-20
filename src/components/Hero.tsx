@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ArrowRight, Sparkles, Target, Users } from "lucide-react";
+import { Link } from "react-router-dom";
 import heroImage from "@/assets/hero-education.jpg";
 
 const Hero = () => {
@@ -36,12 +37,16 @@ const Hero = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <Button size="lg" className="text-lg px-8 py-4 shadow-primary">
-              Start Your Journey
-              <ArrowRight className="ml-2 h-5 w-5" />
+            <Button size="lg" className="text-lg px-8 py-4 shadow-primary" asChild>
+              <Link to="/onboarding">
+                Start Your Journey
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
             </Button>
-            <Button variant="outline" size="lg" className="text-lg px-8 py-4">
-              Take Free Assessment
+            <Button variant="outline" size="lg" className="text-lg px-8 py-4" asChild>
+              <Link to="/quiz">
+                Take Free Assessment
+              </Link>
             </Button>
           </div>
           
