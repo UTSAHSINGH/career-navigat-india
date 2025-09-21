@@ -9,16 +9,15 @@ import {
   VolumeX, 
   Bot,
   Languages,
-  MessageCircle
+  MessageCircle,
+  Database
 } from "lucide-react";
-import { useConversation } from "@11labs/react";
 
 const VoiceAssistant = () => {
   const [isListening, setIsListening] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState("Hindi");
   const [isMuted, setIsMuted] = useState(false);
-  const [apiKey, setApiKey] = useState("");
-  const [showApiInput, setShowApiInput] = useState(true);
+  const [showBackendNotice, setShowBackendNotice] = useState(true);
 
   const languages = [
     { code: "hi", name: "Hindi", flag: "🇮🇳" },
@@ -28,99 +27,58 @@ const VoiceAssistant = () => {
     { code: "doi", name: "Dogri", flag: "🏔️" }
   ];
 
-  const conversation = useConversation({
-    onConnect: () => {
-      console.log("Voice assistant connected");
-    },
-    onDisconnect: () => {
-      console.log("Voice assistant disconnected");
-      setIsListening(false);
-    },
-    onMessage: (message) => {
-      console.log("Assistant message:", message);
-    },
-    onError: (error) => {
-      console.error("Voice assistant error:", error);
-      setIsListening(false);
-    }
-  });
-
-  const startListening = async () => {
-    if (!apiKey) {
-      alert("Please enter your ElevenLabs API key first");
-      return;
-    }
-
-    try {
-      // Request microphone permission
-      await navigator.mediaDevices.getUserMedia({ audio: true });
-      
-      // Start conversation with ElevenLabs
-      // Note: You'll need to replace this with your actual agent ID from ElevenLabs
-      await conversation.startSession({ 
-        agentId: "your-agent-id-here" // Replace with actual agent ID
-      });
-      
-      setIsListening(true);
-    } catch (error) {
-      console.error("Failed to start voice assistant:", error);
-      alert("Failed to start voice assistant. Please check your microphone permissions and API key.");
-    }
+  const handleVoiceAction = () => {
+    alert("Voice Assistant requires Supabase backend integration with ElevenLabs API setup. Please connect to Supabase first to enable voice features!");
   };
 
-  const stopListening = async () => {
-    try {
-      await conversation.endSession();
-      setIsListening(false);
-    } catch (error) {
-      console.error("Failed to stop voice assistant:", error);
-    }
+  const toggleMute = () => {
+    setIsMuted(!isMuted);
   };
 
-  const toggleMute = async () => {
-    try {
-      await conversation.setVolume({ volume: isMuted ? 1 : 0 });
-      setIsMuted(!isMuted);
-    } catch (error) {
-      console.error("Failed to toggle mute:", error);
-    }
-  };
-
-  if (showApiInput) {
+  if (showBackendNotice) {
     return (
       <Card className="fixed bottom-6 right-6 w-80 shadow-lg border-primary/20 bg-background/95 backdrop-blur-sm">
         <CardContent className="p-4">
           <div className="flex items-center mb-3">
             <Bot className="h-5 w-5 text-primary mr-2" />
-            <h3 className="font-semibold">Voice Assistant Setup</h3>
+            <h3 className="font-semibold">AI Voice Assistant</h3>
           </div>
-          <p className="text-sm text-muted-foreground mb-3">
-            Enter your ElevenLabs API key to enable multilingual voice assistance.
-          </p>
-          <input
-            type="password"
-            placeholder="Enter ElevenLabs API Key"
-            value={apiKey}
-            onChange={(e) => setApiKey(e.target.value)}
-            className="w-full p-2 border rounded-md mb-3 text-sm"
-          />
-          <div className="flex space-x-2">
-            <Button 
-              size="sm" 
-              onClick={() => {
-                if (apiKey) {
-                  setShowApiInput(false);
-                } else {
-                  alert("Please enter your API key");
-                }
-              }}
-              disabled={!apiKey}
-            >
-              Continue
-            </Button>
-            <Button size="sm" variant="outline" onClick={() => setShowApiInput(false)}>
-              Skip
-            </Button>
+          
+          <div className="space-y-3">
+            <div className="p-3 bg-primary-light/10 border border-primary/20 rounded-lg">
+              <div className="flex items-start space-x-2">
+                <Database className="h-4 w-4 text-primary mt-0.5" />
+                <div>
+                  <p className="text-sm font-medium">Backend Integration Required</p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Connect to Supabase to enable voice features with ElevenLabs API
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="text-xs text-muted-foreground space-y-1">
+              <p className="font-medium">Supported Languages:</p>
+              <div className="flex flex-wrap gap-1">
+                {languages.map((lang) => (
+                  <Badge key={lang.code} variant="outline" className="text-xs">
+                    {lang.flag} {lang.name}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex space-x-2">
+              <Button 
+                size="sm" 
+                onClick={() => setShowBackendNotice(false)}
+              >
+                Preview UI
+              </Button>
+              <Button size="sm" variant="outline" onClick={() => setShowBackendNotice(false)}>
+                Continue
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -135,8 +93,8 @@ const VoiceAssistant = () => {
             <Bot className="h-5 w-5 text-primary mr-2" />
             <h3 className="font-semibold">AI Career Assistant</h3>
           </div>
-          <Badge variant={isListening ? "default" : "secondary"} className="text-xs">
-            {conversation.status === "connected" ? "Connected" : "Offline"}
+          <Badge variant="secondary" className="text-xs">
+            Demo Mode
           </Badge>
         </div>
 
@@ -162,9 +120,8 @@ const VoiceAssistant = () => {
             <Button
               size="sm"
               variant={isListening ? "destructive" : "default"}
-              onClick={isListening ? stopListening : startListening}
+              onClick={handleVoiceAction}
               className="flex-1"
-              disabled={!apiKey && !showApiInput}
             >
               {isListening ? (
                 <>
@@ -183,7 +140,6 @@ const VoiceAssistant = () => {
               size="sm"
               variant="outline"
               onClick={toggleMute}
-              disabled={!conversation.status}
             >
               {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
             </Button>
@@ -191,18 +147,10 @@ const VoiceAssistant = () => {
 
           {/* Assistant Status */}
           <div className="text-xs text-muted-foreground space-y-1">
-            {isListening && (
-              <div className="flex items-center">
-                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse mr-2"></div>
-                Listening in {currentLanguage}...
-              </div>
-            )}
-            {conversation.isSpeaking && (
-              <div className="flex items-center">
-                <MessageCircle className="h-3 w-3 mr-1 text-primary" />
-                Assistant is speaking...
-              </div>
-            )}
+            <div className="flex items-center">
+              <Database className="h-3 w-3 mr-1 text-muted-foreground" />
+              Requires Supabase + ElevenLabs integration
+            </div>
           </div>
 
           {/* Quick Help */}
@@ -215,16 +163,14 @@ const VoiceAssistant = () => {
             </ul>
           </div>
 
-          {!apiKey && (
-            <Button 
-              size="sm" 
-              variant="ghost" 
-              onClick={() => setShowApiInput(true)}
-              className="w-full text-xs"
-            >
-              Add API Key for Full Features
-            </Button>
-          )}
+          <Button 
+            size="sm" 
+            variant="ghost" 
+            onClick={() => setShowBackendNotice(true)}
+            className="w-full text-xs"
+          >
+            View Setup Requirements
+          </Button>
         </div>
       </CardContent>
     </Card>
