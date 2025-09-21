@@ -1,9 +1,15 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { BookOpen, User, Menu } from "lucide-react";
 import { Link } from "react-router-dom";
+import LoginModal from "./LoginModal";
 
 const Header = () => {
+  const [showLoginModal, setShowLoginModal] = useState(false);
+
   return (
+    <>
+      <LoginModal isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} />
     <header className="fixed top-0 left-0 right-0 bg-background/80 backdrop-blur-md border-b border-border z-50">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <Link to="/" className="flex items-center space-x-2">
@@ -20,11 +26,14 @@ const Header = () => {
         </nav>
         
         <div className="flex items-center space-x-4">
-          <Button variant="outline" size="sm" className="hidden md:flex" asChild>
-            <Link to="/dashboard">
-              <User className="h-4 w-4 mr-2" />
-              Login
-            </Link>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="hidden md:flex"
+            onClick={() => setShowLoginModal(true)}
+          >
+            <User className="h-4 w-4 mr-2" />
+            Login
           </Button>
           <Button variant="default" size="sm" asChild>
             <Link to="/onboarding">
@@ -37,6 +46,7 @@ const Header = () => {
         </div>
       </div>
     </header>
+    </>
   );
 };
 

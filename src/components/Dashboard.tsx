@@ -14,6 +14,7 @@ import {
   Star,
   MapPin
 } from "lucide-react";
+import VoiceAssistant from "./VoiceAssistant";
 
 const Dashboard = () => {
   const userData = {
@@ -260,6 +261,9 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      
+      {/* Voice Assistant */}
+      <VoiceAssistant />
     </div>
   );
 };
