@@ -18,7 +18,7 @@ const Hero = () => {
         <div className="text-center max-w-4xl mx-auto">
           <div className="inline-flex items-center space-x-2 bg-primary-light/20 rounded-full px-4 py-2 mb-6">
             <Sparkles className="h-4 w-4 text-primary" />
-            <span className="text-primary font-medium">AI-Powered Career Guidance</span>
+            <span className="text-primary font-medium">Career Guidance for J&K Students</span>
           </div>
           
           <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
@@ -33,7 +33,7 @@ const Hero = () => {
           
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto">
             Discover your perfect career path with AI-powered recommendations, 
-            personalized learning, and comprehensive guidance designed specifically for Indian students.
+            personalized learning, and comprehensive guidance designed specifically for students of Jammu & Kashmir.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
