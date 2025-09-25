@@ -15,40 +15,267 @@ const QuizInterface = () => {
   const navigate = useNavigate();
 
   const questions = [
+    // Personality Assessment Questions
     {
-      question: "Which activity interests you most?",
+      category: "Personality",
+      question: "When faced with a challenging problem, you usually:",
       options: [
-        "Solving complex mathematical problems",
-        "Creating artwork or designs",
-        "Helping people with their problems",
-        "Building or fixing things"
+        "Break it down into smaller, manageable parts",
+        "Brainstorm creative and unconventional solutions",
+        "Seek advice and input from others",
+        "Dive in immediately and learn by doing"
       ]
     },
     {
-      question: "What type of environment do you prefer to work in?",
+      category: "Personality",
+      question: "In group projects, you typically:",
       options: [
-        "Quiet office with individual focus",
-        "Creative studio with artistic freedom",
-        "Busy hospital or clinic helping patients",
-        "Outdoor or workshop setting"
+        "Take on the leadership role naturally",
+        "Contribute innovative ideas and creative solutions",
+        "Ensure everyone's voice is heard and valued",
+        "Focus on practical implementation and execution"
       ]
     },
     {
-      question: "Which subject did you enjoy most in school?",
+      category: "Personality",
+      question: "Your ideal weekend activity would be:",
       options: [
-        "Mathematics and Physics",
-        "Art and Literature",
-        "Biology and Chemistry",
-        "Physical Education and Practical subjects"
+        "Attending a science exhibition or tech conference",
+        "Visiting art galleries or working on creative projects",
+        "Volunteering for a social cause or community service",
+        "Participating in outdoor adventures or sports"
       ]
     },
     {
-      question: "How do you prefer to solve problems?",
+      category: "Personality",
+      question: "When making important decisions, you rely most on:",
       options: [
-        "Through logical analysis and data",
-        "Through creative thinking and innovation",
-        "Through collaboration and discussion",
-        "Through hands-on experimentation"
+        "Detailed research and factual analysis",
+        "Intuition and creative thinking",
+        "Input from family, friends, and mentors",
+        "Personal experience and practical considerations"
+      ]
+    },
+    {
+      category: "Personality",
+      question: "What motivates you most in your studies?",
+      options: [
+        "Understanding how things work and solving complex problems",
+        "Expressing yourself and creating something unique",
+        "Making a positive impact on others' lives",
+        "Achieving tangible results and practical outcomes"
+      ]
+    },
+    
+    // Aptitude & Interest Questions
+    {
+      category: "Aptitude",
+      question: "Which of these activities comes most naturally to you?",
+      options: [
+        "Solving mathematical equations and logical puzzles",
+        "Writing stories, poems, or designing graphics",
+        "Understanding people's emotions and motivations",
+        "Building, repairing, or working with your hands"
+      ]
+    },
+    {
+      category: "Aptitude",
+      question: "In school, you excel most at:",
+      options: [
+        "Mathematics, Physics, and Computer Science",
+        "Languages, Literature, and Arts",
+        "Biology, Psychology, and Social Studies",
+        "Chemistry, Engineering, and Practical subjects"
+      ]
+    },
+    {
+      category: "Aptitude",
+      question: "Your friends often come to you for help with:",
+      options: [
+        "Academic problems and technical issues",
+        "Creative projects and design ideas",
+        "Personal problems and relationship advice",
+        "Practical tasks and hands-on projects"
+      ]
+    },
+    {
+      category: "Career Interest",
+      question: "Which work environment appeals to you most?",
+      options: [
+        "High-tech laboratory or research facility",
+        "Creative studio or media company",
+        "Hospital, school, or community center",
+        "Manufacturing plant or construction site"
+      ]
+    },
+    {
+      category: "Career Interest",
+      question: "Your dream job would involve:",
+      options: [
+        "Developing cutting-edge technology or conducting research",
+        "Creating content, art, or entertainment",
+        "Helping people solve problems and improve their lives",
+        "Building infrastructure or manufacturing products"
+      ]
+    },
+    
+    // J&K Specific Questions
+    {
+      category: "Regional Interest",
+      question: "Which sector in J&K interests you most for career development?",
+      options: [
+        "IT and Technology (Emerging tech hubs in Srinagar/Jammu)",
+        "Tourism and Hospitality (Leveraging natural beauty)",
+        "Agriculture and Horticulture (Apple farming, saffron cultivation)",
+        "Handicrafts and Traditional Arts (Pashmina, carpets, woodwork)"
+      ]
+    },
+    {
+      category: "Regional Interest",
+      question: "What attracts you most about working in J&K?",
+      options: [
+        "Contributing to the region's technological advancement",
+        "Promoting J&K's cultural heritage globally",
+        "Improving local communities and social development",
+        "Developing sustainable local industries"
+      ]
+    },
+    
+    // Learning Style Questions
+    {
+      category: "Learning Style",
+      question: "You learn best when:",
+      options: [
+        "Reading textbooks and researching online",
+        "Watching videos and visual demonstrations",
+        "Discussing concepts with peers and teachers",
+        "Practicing hands-on exercises and experiments"
+      ]
+    },
+    {
+      category: "Learning Style",
+      question: "When preparing for exams, you prefer to:",
+      options: [
+        "Create detailed study schedules and follow them strictly",
+        "Use mind maps, diagrams, and visual aids",
+        "Form study groups and explain concepts to others",
+        "Take practice tests and work through problems"
+      ]
+    },
+    {
+      category: "Learning Style",
+      question: "Your ideal classroom setting would be:",
+      options: [
+        "Traditional lecture with detailed explanations",
+        "Interactive multimedia presentations",
+        "Group discussions and collaborative activities",
+        "Laboratory work and practical demonstrations"
+      ]
+    },
+    
+    // Future Aspirations
+    {
+      category: "Future Goals",
+      question: "In 10 years, you see yourself:",
+      options: [
+        "Leading a tech company or research team",
+        "Running a creative agency or being a recognized artist",
+        "Heading a healthcare facility or educational institution",
+        "Managing large-scale projects or manufacturing operations"
+      ]
+    },
+    {
+      category: "Future Goals",
+      question: "Your definition of professional success is:",
+      options: [
+        "Making breakthrough discoveries or innovations",
+        "Creating impactful and inspiring work",
+        "Improving many people's quality of life",
+        "Building something tangible and lasting"
+      ]
+    },
+    {
+      category: "Future Goals",
+      question: "Which achievement would make you most proud?",
+      options: [
+        "Publishing groundbreaking research or developing new technology",
+        "Winning awards for creative work or artistic expression",
+        "Being recognized for community service and social impact",
+        "Successfully completing major infrastructure projects"
+      ]
+    },
+    
+    // Problem-Solving & Skills
+    {
+      category: "Skills",
+      question: "When learning a new skill, you:",
+      options: [
+        "Study the theory thoroughly before practicing",
+        "Look for creative and innovative approaches",
+        "Seek guidance from experienced mentors",
+        "Jump in and learn through trial and error"
+      ]
+    },
+    {
+      category: "Skills",
+      question: "Your strongest skill is:",
+      options: [
+        "Analytical thinking and problem-solving",
+        "Creative expression and innovation",
+        "Communication and empathy",
+        "Practical implementation and execution"
+      ]
+    },
+    {
+      category: "Values",
+      question: "What matters most to you in a career?",
+      options: [
+        "Intellectual challenges and continuous learning",
+        "Creative freedom and self-expression",
+        "Making a positive social impact",
+        "Job security and practical rewards"
+      ]
+    },
+    {
+      category: "Values",
+      question: "Which of these would you choose as a life motto?",
+      options: [
+        "Knowledge is power - keep learning and innovating",
+        "Beauty and creativity make life meaningful",
+        "Service to others is the highest calling",
+        "Hard work and persistence lead to success"
+      ]
+    },
+    
+    // Career-Specific J&K Questions
+    {
+      category: "Career Path",
+      question: "Which emerging career opportunity in J&K excites you most?",
+      options: [
+        "Software development and IT services",
+        "Digital marketing for tourism and handicrafts",
+        "Healthcare technology and telemedicine",
+        "Sustainable agriculture and food processing"
+      ]
+    },
+    {
+      category: "Career Path",
+      question: "How do you want to contribute to J&K's development?",
+      options: [
+        "Through technological innovation and digital transformation",
+        "By promoting our culture and heritage globally",
+        "Through education and community empowerment",
+        "By building modern infrastructure and industries"
+      ]
+    },
+    {
+      category: "General Aptitude",
+      question: "If you had to choose between these college courses, which would you pick?",
+      options: [
+        "Computer Science, Engineering, or Mathematics",
+        "Fine Arts, Design, or Mass Communication",
+        "Medicine, Psychology, or Social Work",
+        "Business Management, Commerce, or Economics"
       ]
     }
   ];
@@ -82,7 +309,7 @@ const QuizInterface = () => {
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-3">
               <Brain className="h-6 w-6 text-secondary" />
-              <CardTitle className="text-2xl">Aptitude Assessment</CardTitle>
+              <CardTitle className="text-2xl">Comprehensive Career Assessment</CardTitle>
             </div>
             <div className="flex items-center space-x-2 text-sm text-muted-foreground">
               <Clock className="h-4 w-4" />
@@ -90,10 +317,15 @@ const QuizInterface = () => {
             </div>
           </div>
           
-          <Progress value={progress} className="h-3" />
-          <p className="text-sm text-muted-foreground">
-            Question {currentQuestion + 1} of {questions.length}
-          </p>
+          <div className="space-y-2 mb-4">
+            <Progress value={progress} className="h-3" />
+            <div className="flex justify-between text-sm text-muted-foreground">
+              <span>Question {currentQuestion + 1} of {questions.length}</span>
+              <span className="px-2 py-1 bg-secondary/20 rounded text-xs font-medium">
+                {questions[currentQuestion].category}
+              </span>
+            </div>
+          </div>
         </CardHeader>
         
         <CardContent className="space-y-6">
