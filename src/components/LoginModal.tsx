@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
@@ -15,11 +14,10 @@ import {
   Mail, 
   Lock, 
   Eye, 
-  EyeOff,
-  Database,
-  Shield,
-  Zap
+  EyeOff
 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -31,11 +29,53 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // This is where actual authentication would happen
-    alert("Login functionality requires Supabase backend integration. Please connect to Supabase first!");
+    setLoading(true);
+
+    try {
+      if (isSignUp) {
+        const { error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            emailRedirectTo: `${window.location.origin}/`
+          }
+        });
+        
+        if (error) throw error;
+        
+        toast({
+          title: "Account created!",
+          description: "Please check your email to verify your account.",
+        });
+      } else {
+        const { error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+        
+        if (error) throw error;
+        
+        toast({
+          title: "Welcome back!",
+          description: "You have successfully signed in.",
+        });
+        
+        onClose();
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -47,42 +87,13 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
           </DialogTitle>
           <DialogDescription className="text-center">
             {isSignUp 
-              ? "Join CareerPath AI to start your personalized career journey"
+              ? "Join Margdashrshan J&K to start your personalized career journey"
               : "Sign in to access your personalized dashboard"
             }
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">
-          {/* Supabase Integration Notice */}
-          <Card className="bg-primary-light/10 border-primary/20">
-            <CardContent className="p-4">
-              <div className="flex items-start space-x-3">
-                <Database className="h-5 w-5 text-primary mt-0.5" />
-                <div className="space-y-2">
-                  <h4 className="font-semibold text-sm">Backend Integration Required</h4>
-                  <p className="text-xs text-muted-foreground">
-                    To enable login functionality, this app needs to be connected to Supabase for:
-                  </p>
-                  <ul className="text-xs text-muted-foreground space-y-1">
-                    <li className="flex items-center">
-                      <Shield className="h-3 w-3 mr-1 text-primary" />
-                      Secure user authentication
-                    </li>
-                    <li className="flex items-center">
-                      <Database className="h-3 w-3 mr-1 text-primary" />
-                      User profile & progress storage
-                    </li>
-                    <li className="flex items-center">
-                      <Zap className="h-3 w-3 mr-1 text-primary" />
-                      Real-time features & notifications
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
@@ -128,9 +139,9 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
             <Button 
               type="submit" 
               className="w-full" 
-              disabled
+              disabled={loading}
             >
-              {isSignUp ? "Create Account" : "Sign In"} (Requires Backend)
+              {loading ? "Loading..." : (isSignUp ? "Create Account" : "Sign In")}
             </Button>
           </form>
 
