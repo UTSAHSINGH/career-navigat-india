@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -31,6 +32,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,17 +43,18 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
         const { error } = await supabase.auth.signUp({
           email,
           password,
-          options: {
-            emailRedirectTo: `${window.location.origin}/`
-          }
         });
         
         if (error) throw error;
         
         toast({
-          title: "Account created!",
-          description: "Please check your email to verify your account.",
+          title: "Account created successfully!",
+          description: "You can now sign in with your credentials.",
         });
+        
+        // Switch to sign in mode after successful signup
+        setIsSignUp(false);
+        setPassword("");
       } else {
         const { error } = await supabase.auth.signInWithPassword({
           email,
@@ -66,6 +69,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
         });
         
         onClose();
+        navigate("/");
       }
     } catch (error: any) {
       toast({
